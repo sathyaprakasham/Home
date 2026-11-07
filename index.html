@@ -535,7 +535,7 @@ name:"പ്രാർത്ഥന _ ധ്യാനം",
 videos:[
 ["പ്രാർത്ഥിക്കേണ്ടത് ശരിക്കും എങ്ങനെ എന്ന് ഒരു സംശയം..","eN-O769Ij80"],
 ["മധ്യസ്ഥ പ്രാർത്ഥന തെറ്റാണോ..??","8Zqk_NYTUXw"],
-["സൃഷ്ടാവാം ദൈവം ആഗ്രഹിക്കുന്ന "മന്ത്രം" ഏതാണ്..??","tHBLu94pKRM"],
+["സൃഷ്ടാവാം ദൈവം ആഗ്രഹിക്കുന്ന \"മന്ത്രം\" ഏതാണ്..??","tHBLu94pKRM"],
 ["പ്രാർത്ഥിക്കുമ്പോൾ ശാരീരിക ബുദ്ധിമുട്ട് തടസ്സങ്ങൾ..!!","u9UiDedTTp4"],
 ["ധ്യാന മന്ത്രങ്ങൾ എന്തെങ്കിലുമുണ്ടോ.??","RxKavjQkKbk"],
 ["മറ്റുള്ളവർക്ക് വേണ്ടി പ്രാർത്ഥിച്ചിട്ടും ഫലമില്ലല്ലോ.??","Mpi6VH5fCKU"],
@@ -914,12 +914,17 @@ videos:[
 
 ];
 
+
+/* Playlist display */
+
 const library = document.getElementById("library");
 
 playlists.forEach((playlist) => {
+
     const details = document.createElement("details");
     details.className = "playlist";
 
+    // Oru playlist open cheyyumbol matrekkulla maru playlist-kal close aakkunu
     details.addEventListener("toggle", () => {
         if (details.open) {
             document.querySelectorAll(".playlist").forEach((otherDetails) => {
@@ -958,6 +963,7 @@ playlists.forEach((playlist) => {
     videoList.className = "video-list";
 
     playlist.videos.forEach((video) => {
+
         const item = document.createElement("div");
         item.className = "video-item";
 
@@ -979,6 +985,7 @@ playlists.forEach((playlist) => {
         player.className = "video-player";
 
         button.addEventListener("click", () => {
+
             const isAlreadyOpen = player.classList.contains("show");
 
             document.querySelectorAll(".video-player.show").forEach(p => {
@@ -991,6 +998,7 @@ playlists.forEach((playlist) => {
             });
 
             if (!isAlreadyOpen) {
+
                 button.classList.add("active");
                 player.classList.add("show");
 
@@ -1028,6 +1036,7 @@ playlists.forEach((playlist) => {
     details.appendChild(videoList);
     library.appendChild(details);
 });
+
 </script>
 
 </body>
