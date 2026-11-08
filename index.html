@@ -23,15 +23,15 @@ body {
     background: radial-gradient(ellipse at 50% 0%, rgba(28,67,119,.35), transparent 55%), radial-gradient(ellipse at 100% 60%, rgba(145,104,35,.09), transparent 45%), #080d19;
 }
 
-/* Fixed Header Shell with Solid Opaque Backdrop Mask */
+/* Fixed Header + Search Shell */
 .header-fixed-shell {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    padding: 8px 12px 8px;
-    background: linear-gradient(to bottom, #080d19 calc(100% - 8px), rgba(8, 13, 25, 0.92) 100%);
+    padding: 8px 12px 10px;
+    background: linear-gradient(to bottom, #080d19 calc(100% - 10px), rgba(8, 13, 25, 0.94) 100%);
     pointer-events: none;
 }
 
@@ -108,12 +108,76 @@ body {
     will-change: opacity;
 }
 
+/* Sticky Search Bar inside Fixed Header Shell */
+.search-bar-dock {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 1000px;
+    margin: 10px auto 0;
+}
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+}
+.search-input {
+    width: 100%;
+    padding: 11px 42px 11px 38px;
+    background: rgba(13, 24, 42, 0.96);
+    border: 1px solid rgba(218, 177, 91, 0.5);
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Noto Sans Malayalam', sans-serif;
+    font-size: 14px;
+    outline: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.search-input::placeholder {
+    color: #899bb3;
+}
+.search-input:focus {
+    border-color: #f0d18c;
+    box-shadow: 0 0 16px rgba(218, 177, 91, 0.28);
+}
+.search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #d9b66b;
+    font-size: 14px;
+    pointer-events: none;
+}
+.search-clear {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(218, 177, 91, 0.22);
+    border: none;
+    color: #f0d18c;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 15px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+.search-clear.visible {
+    display: flex;
+}
+
 /* Main Content Wrapper */
 .content-wrapper {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    padding-top: 255px;
+    padding-top: 308px;
     position: relative;
 }
 
@@ -121,6 +185,15 @@ body {
 .library-heading{margin:0 auto 17px;text-align:center}
 .library-heading h2{margin:0;color:#f0d18c;font-size:21px;font-weight:700}
 .library-heading p{margin:7px 0 0;color:#9eacc1;font-size:13px}
+
+.search-status {
+    text-align: center;
+    color: #f0d18c;
+    font-size: 13px;
+    margin-bottom: 14px;
+    display: none;
+}
+
 .playlist{position:relative;margin-bottom:13px;background:linear-gradient(110deg,#14233a,#101c30);border:1px solid rgba(119,157,202,.25);border-radius:10px;overflow:hidden;box-shadow:0 5px 16px rgba(0,0,0,.25);transition:border-color .25s ease,box-shadow .25s ease}
 .playlist:hover{border-color:rgba(221,183,104,.65);box-shadow:0 7px 22px rgba(0,0,0,.35)}
 .playlist summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:61px;padding:14px 17px;font-size:16px;font-weight:600;color:#f4e8cd}
@@ -144,14 +217,136 @@ body {
 .video-player.show{display:block}
 .video-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;border:1px solid rgba(218,177,91,.35);border-radius:8px}
 .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.youtube-link{display:inline-block;margin-top:10px;color:#e9c77e;font-size:13px;text-decoration:none}
-.youtube-link:hover{color:#fff;text-decoration:underline}
+
+/* Action Links Bar (YouTube + WhatsApp Share) */
+.player-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+}
+.youtube-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #e9c77e;
+    font-size: 13px;
+    text-decoration: none;
+}
+.youtube-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+.whatsapp-share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: rgba(37, 211, 102, 0.14);
+    border: 1px solid rgba(37, 211, 102, 0.45);
+    color: #5ee68d;
+    font-family: 'Noto Sans Malayalam', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.whatsapp-share-btn:hover {
+    background: rgba(37, 211, 102, 0.28);
+    color: #fff;
+}
+
+/* Variety Back to Top Button (Golden Scroll-Progress Ring + Glowing Pill) */
+.back-to-top {
+    position: fixed;
+    bottom: 22px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #1d3557, #0a1426);
+    color: #f2d28d;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75), 0 0 16px rgba(218, 177, 91, 0.4);
+    z-index: 990;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px) scale(0.9);
+    transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.28s ease, box-shadow 0.25s ease;
+}
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+.back-to-top:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.85), 0 0 24px rgba(242, 210, 141, 0.75);
+}
+.back-to-top svg.progress-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+.back-to-top .ring-bg {
+    fill: none;
+    stroke: rgba(218, 177, 91, 0.22);
+    stroke-width: 3;
+}
+.back-to-top .ring-fill {
+    fill: none;
+    stroke: #f2d28d;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 138.23;
+    stroke-dashoffset: 138.23;
+    transition: stroke-dashoffset 0.1s linear;
+}
+.back-to-top .top-arrow-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+.back-to-top .arrow-icon {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f2d28d;
+    animation: floatUp 1.8s ease-in-out infinite;
+}
+.back-to-top .top-label {
+    font-family: Arial, sans-serif;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: #fff;
+    margin-top: 2px;
+}
+@keyframes floatUp {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2.5px); }
+}
+
 .library-footer{max-width:1000px;margin:25px auto 5px;padding:17px 10px;text-align:center;border-top:1px solid rgba(218,177,91,.25);color:#899bb3;font-size:12px}
 .library-footer span{color:#d8b66f;font-family:Georgia,serif;letter-spacing:1px}
 @media(max-width:600px){
 body{padding:7px}
 .header-fixed-shell{padding:7px 7px 8px;}
-.content-wrapper {padding-top: 215px;}
+.search-bar-dock{margin-top: 8px;}
+.search-input{padding: 9px 36px 9px 34px; font-size: 13px;}
+.search-icon{left: 11px; font-size: 13px;}
+.content-wrapper {padding-top: 262px;}
 .library-heading h2{font-size:18px}
 .playlist{margin-bottom:10px;border-radius:8px}
 .playlist summary{padding:12px 10px;min-height:54px;font-size:14px;gap:6px}
@@ -161,6 +356,7 @@ body{padding:7px}
 .video-list{padding:3px 9px 10px}
 .video-title{font-size:13px;gap:8px;padding:11px 2px}
 .video-player{padding-left:20px}
+.back-to-top{bottom: 18px; right: 15px; width: 46px; height: 46px;}
 }
 </style>
 </head>
@@ -173,18 +369,29 @@ body{padding:7px}
         src="https://yt3.googleusercontent.com/6hxLG48b0tQwbTvxNYAM97qva_tyalEZsqxctBnZn1HOZBeNV06hWux1B7gSPUgOPGIRn_yA=s160-c-k-c0x00ffffff-no-rj"
         alt="Sujo Rajan Channel Logo">
         <div class="header-text" id="headerText">
-            <h1 class="channel-title" id="channelTitle">Spiritual Destiny</h1>
+            <h1 class="channel-title" id="channelTitle">സത്യപ്രകാശം</h1>
             <p class="channel-subtitle" id="channelSubtitle">SPIRITUAL KNOWLEDGE &amp; EXPLORATION</p>
         </div>
         <div class="header-line" id="headerLine"></div>
+    </div>
+
+    <!-- Fixed Instant Search Bar right below Top Banner -->
+    <div class="search-bar-dock">
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="വീഡിയോകൾ തിരയുക (ഉദാ: മോക്ഷം, കുണ്ഡലിനി, കർമ്മം)..." aria-label="വീഡിയോകൾ തിരയുക">
+            <button type="button" id="searchClear" class="search-clear" title="തിരയൽ മായ്ക്കുക">&times;</button>
+        </div>
     </div>
 </div>
 
 <div class="content-wrapper" id="contentWrapper">
     <div class="library-heading" id="libraryHeading">
         <h2>വീഡിയോ ലൈബ്രറി</h2>
-        <p>ആത്മീയ വിഷയങ്ങളിലുള്ള വീഡിയോകൾ </p>
+        <p>ആത്മീയ വിഷയങ്ങളിലുള്ള വീഡിയോകൾ 1</p>
     </div>
+
+    <div id="searchStatus" class="search-status"></div>
 
     <div class="library" id="library"></div>
 
@@ -193,6 +400,18 @@ body{padding:7px}
         <p>Spiritual Video Library</p>
     </div>
 </div>
+
+<!-- Variety Back to Top Button with Live Scroll Progress Ring -->
+<button type="button" id="backToTop" class="back-to-top" title="മുകളിലേക്ക് പോകുക" aria-label="മുകളിലേക്ക് പോകുക">
+    <svg class="progress-ring" viewBox="0 0 50 50">
+        <circle class="ring-bg" cx="25" cy="25" r="22"></circle>
+        <circle class="ring-fill" id="progressRingFill" cx="25" cy="25" r="22"></circle>
+    </svg>
+    <span class="top-arrow-wrap">
+        <span class="arrow-icon">▲</span>
+        <span class="top-label">TOP</span>
+    </span>
+</button>
 
 <script>
 const playlists = [
@@ -1025,13 +1244,16 @@ playlists.forEach((playlist) => {
     details.className = "playlist";
 
     details.addEventListener("toggle", () => {
+        const isSearching = document.getElementById("searchInput").value.trim().length > 0;
         if (details.open) {
-            document.querySelectorAll(".playlist").forEach((otherDetails) => {
-                if (otherDetails !== details) {
-                    otherDetails.removeAttribute("open");
-                    stopVideosIn(otherDetails);
-                }
-            });
+            if (!isSearching) {
+                document.querySelectorAll(".playlist").forEach((otherDetails) => {
+                    if (otherDetails !== details) {
+                        otherDetails.removeAttribute("open");
+                        stopVideosIn(otherDetails);
+                    }
+                });
+            }
         } else {
             stopVideosIn(details);
         }
@@ -1048,6 +1270,7 @@ playlists.forEach((playlist) => {
 
     const count = document.createElement("span");
     count.className = "video-count";
+    count.dataset.total = playlist.videos.length;
     count.textContent = playlist.videos.length + " Videos";
 
     const toggle = document.createElement("span");
@@ -1098,27 +1321,44 @@ playlists.forEach((playlist) => {
                 player.classList.add("show");
 
                 const videoId = video[1];
+                const videoTitle = video[0];
+                const youtubeUrl = "https://www.youtube.com/watch?v=" + encodeURIComponent(videoId);
 
                 const frame = document.createElement("div");
                 frame.className = "video-frame";
 
                 const iframe = document.createElement("iframe");
                 iframe.src = "https://www.youtube.com/embed/" + encodeURIComponent(videoId);
-                iframe.title = video[0];
+                iframe.title = videoTitle;
                 iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
                 iframe.allowFullscreen = true;
 
                 frame.appendChild(iframe);
 
+                // Action Links Bar (YouTube + WhatsApp Share)
+                const actions = document.createElement("div");
+                actions.className = "player-actions";
+
                 const link = document.createElement("a");
                 link.className = "youtube-link";
-                link.href = "https://www.youtube.com/watch?v=" + encodeURIComponent(videoId);
+                link.href = youtubeUrl;
                 link.target = "_blank";
                 link.rel = "noopener noreferrer";
                 link.textContent = "YouTube-ൽ തുറക്കുക";
 
+                const waShare = document.createElement("a");
+                waShare.className = "whatsapp-share-btn";
+                const shareMessage = `${videoTitle}\n${youtubeUrl}`;
+                waShare.href = "https://api.whatsapp.com/send?text=" + encodeURIComponent(shareMessage);
+                waShare.target = "_blank";
+                waShare.rel = "noopener noreferrer";
+                waShare.textContent = "WhatsApp-ൽ ഷെയർ ചെയ്യുക";
+
+                actions.appendChild(link);
+                actions.appendChild(waShare);
+
                 player.appendChild(frame);
-                player.appendChild(link);
+                player.appendChild(actions);
             }
         });
 
@@ -1130,6 +1370,87 @@ playlists.forEach((playlist) => {
 
     details.appendChild(videoList);
     library.appendChild(details);
+});
+
+/* Instant Search Logic */
+const searchInput = document.getElementById("searchInput");
+const searchClear = document.getElementById("searchClear");
+const searchStatus = document.getElementById("searchStatus");
+
+function filterVideos() {
+    const query = searchInput.value.trim().toLowerCase();
+    searchClear.classList.toggle("visible", query.length > 0);
+
+    const allPlaylists = document.querySelectorAll(".playlist");
+    let totalMatchedVideos = 0;
+
+    if (!query) {
+        searchStatus.style.display = "none";
+        allPlaylists.forEach((pl) => {
+            pl.style.display = "";
+            pl.removeAttribute("open");
+            stopVideosIn(pl);
+            const countEl = pl.querySelector(".video-count");
+            countEl.textContent = countEl.dataset.total + " Videos";
+            pl.querySelectorAll(".video-item").forEach((item) => {
+                item.style.display = "";
+            });
+        });
+        return;
+    }
+
+    allPlaylists.forEach((pl) => {
+        const playlistName = pl.querySelector(".playlist-name").textContent.toLowerCase();
+        const isPlaylistNameMatch = playlistName.includes(query);
+        const items = pl.querySelectorAll(".video-item");
+        let matchedInPlaylist = 0;
+
+        items.forEach((item) => {
+            const titleText = item.querySelector(".video-title span:last-child").textContent.toLowerCase();
+            if (isPlaylistNameMatch || titleText.includes(query)) {
+                item.style.display = "";
+                matchedInPlaylist++;
+                totalMatchedVideos++;
+            } else {
+                item.style.display = "none";
+                stopVideosIn(item);
+            }
+        });
+
+        const countEl = pl.querySelector(".video-count");
+        if (matchedInPlaylist > 0) {
+            pl.style.display = "";
+            pl.setAttribute("open", "");
+            countEl.textContent = matchedInPlaylist + " / " + countEl.dataset.total + " Videos";
+        } else {
+            pl.style.display = "none";
+            pl.removeAttribute("open");
+            stopVideosIn(pl);
+        }
+    });
+
+    searchStatus.style.display = "block";
+    if (totalMatchedVideos > 0) {
+        searchStatus.textContent = `${totalMatchedVideos} വീഡിയോകൾ കണ്ടെത്തി`;
+    } else {
+        searchStatus.textContent = "തിരയുന്ന വിഷയത്തിൽ വീഡിയോകൾ ഒന്നും കണ്ടെത്തിയില്ല.";
+    }
+}
+
+searchInput.addEventListener("input", filterVideos);
+searchClear.addEventListener("click", () => {
+    searchInput.value = "";
+    filterVideos();
+    searchInput.focus();
+});
+
+/* Back to Top Button with Live Scroll Progress */
+const backToTopBtn = document.getElementById("backToTop");
+const progressRingFill = document.getElementById("progressRingFill");
+const ringCircumference = 2 * Math.PI * 22; // r = 22 -> ~138.23
+
+backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 /* Continuous 60fps Smooth Header Morphing */
@@ -1147,7 +1468,19 @@ function lerp(start, end, t) {
 function updateMorph() {
     const isMobile = window.innerWidth <= 600;
     const scrollRange = isMobile ? 130 : 160;
-    const progress = Math.min(Math.max(window.scrollY / scrollRange, 0), 1);
+    const scrollY = window.scrollY;
+    const progress = Math.min(Math.max(scrollY / scrollRange, 0), 1);
+
+    // Toggle Back to Top visibility & update scroll progress ring
+    if (scrollY > 220) {
+        backToTopBtn.classList.add("show");
+    } else {
+        backToTopBtn.classList.remove("show");
+    }
+
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = docHeight > 0 ? Math.min(Math.max(scrollY / docHeight, 0), 1) : 0;
+    progressRingFill.style.strokeDashoffset = ringCircumference * (1 - scrollPercent);
 
     // Smooth easing curve
     const ease = progress * (2 - progress);
