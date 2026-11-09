@@ -23,7 +23,7 @@ body {
     background: radial-gradient(ellipse at 50% 0%, rgba(28,67,119,.35), transparent 55%), radial-gradient(ellipse at 100% 60%, rgba(145,104,35,.09), transparent 45%), #080d19;
 }
 
-/* Fixed Header + Search Shell */
+/* Fixed Header + Search + Quick Tags Shell */
 .header-fixed-shell {
     position: fixed;
     top: 0;
@@ -31,7 +31,7 @@ body {
     right: 0;
     z-index: 1000;
     padding: 8px 12px 10px;
-    background: linear-gradient(to bottom, #080d19 calc(100% - 10px), rgba(8, 13, 25, 0.94) 100%);
+    background: linear-gradient(to bottom, #080d19 calc(100% - 10px), rgba(8, 13, 25, 0.95) 100%);
     pointer-events: none;
 }
 
@@ -108,7 +108,7 @@ body {
     will-change: opacity;
 }
 
-/* Sticky Search Bar inside Fixed Header Shell */
+/* Sticky Search Bar & Quick Topic Tags inside Fixed Header Shell */
 .search-bar-dock {
     pointer-events: auto;
     width: 100%;
@@ -172,12 +172,65 @@ body {
     display: flex;
 }
 
+/* Quick Topic Tags + Saved Filter Chip */
+.quick-tags-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    max-width: 650px;
+    margin: 9px auto 0;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: none;
+}
+.quick-tags-bar::-webkit-scrollbar {
+    display: none;
+}
+@media (min-width: 620px) {
+    .quick-tags-bar {
+        justify-content: center;
+    }
+}
+.topic-chip {
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 50px;
+    background: rgba(18, 33, 56, 0.92);
+    border: 1px solid rgba(119, 157, 202, 0.35);
+    color: #cfe0f5;
+    font-family: 'Noto Sans Malayalam', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.topic-chip:hover {
+    border-color: #e4c27d;
+    color: #fff;
+}
+.topic-chip.active {
+    background: linear-gradient(135deg, #f0d18c, #c5953e);
+    border-color: #f7dfa6;
+    color: #0b1424;
+    font-weight: 700;
+    box-shadow: 0 2px 10px rgba(240, 209, 140, 0.35);
+}
+.topic-chip.fav-chip {
+    border-color: rgba(240, 209, 140, 0.55);
+    color: #f2d28d;
+}
+.topic-chip.fav-chip.active {
+    color: #0b1424;
+}
+
 /* Main Content Wrapper */
 .content-wrapper {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    padding-top: 308px;
+    padding-top: 346px;
     position: relative;
 }
 
@@ -208,11 +261,46 @@ body {
 .video-list{padding:5px 16px 13px;border-top:1px solid rgba(143,168,201,.19);background:rgba(5,12,24,.38)}
 .video-item{border-bottom:1px solid rgba(143,168,201,.14)}
 .video-item:last-child{border-bottom:none}
-.video-title{display:flex;align-items:flex-start;gap:11px;width:100%;padding:13px 5px;border:none;background:transparent;color:#dce6f4;font-family:'Noto Sans Malayalam',sans-serif;font-size:14px;line-height:1.7;text-align:left;cursor:pointer;transition:color .2s ease;overflow-wrap:anywhere;word-break:break-word}
+
+/* Video Row with Bookmark Star */
+.video-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+}
+.video-title{display:flex;align-items:flex-start;gap:11px;flex:1;min-width:0;padding:13px 5px;border:none;background:transparent;color:#dce6f4;font-family:'Noto Sans Malayalam',sans-serif;font-size:14px;line-height:1.7;text-align:left;cursor:pointer;transition:color .2s ease;overflow-wrap:anywhere;word-break:break-word}
 .video-title:hover{color:#f2d28d}
 .play{display:inline-block;flex-shrink:0;margin-top:3px;color:#e4bd70;font-family:Arial,sans-serif;font-size:15px;transition:transform .2s ease}
 .video-title.active{color:#f3d28d}
 .video-title.active .play{transform:rotate(90deg)}
+
+/* Favorite Bookmark Star Button */
+.fav-btn {
+    flex-shrink: 0;
+    margin-top: 9px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #6f84a3;
+    font-size: 18px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.fav-btn:hover {
+    color: #f2d28d;
+    background: rgba(242, 210, 141, 0.1);
+}
+.fav-btn.saved {
+    color: #ffd54f;
+    text-shadow: 0 0 10px rgba(255, 213, 79, 0.65);
+}
+
 .video-player{display:none;width:100%;padding:0 0 15px 27px}
 .video-player.show{display:block}
 .video-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;border:1px solid rgba(218,177,91,.35);border-radius:8px}
@@ -255,7 +343,6 @@ body {
     transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
 }
 
-/* Auto Shimmer Light Sweep Animation */
 .whatsapp-share-btn::before {
     content: "";
     position: absolute;
@@ -311,10 +398,10 @@ body {
     flex-shrink: 0;
 }
 
-/* Variety Back to Top Button (Golden Scroll-Progress Ring + Glowing Pill) */
+/* Variety Back to Top Button (Elevated position & Warm Yellow Glow) */
 .back-to-top {
     position: fixed;
-    bottom: 22px;
+    bottom: calc(55px + env(safe-area-inset-bottom));
     right: 20px;
     width: 50px;
     height: 50px;
@@ -322,12 +409,12 @@ body {
     border: none;
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #1d3557, #0a1426);
-    color: #f2d28d;
+    color: #ffd54f;
     display: grid;
     place-items: center;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75), 0 0 16px rgba(218, 177, 91, 0.4);
-    z-index: 990;
+    box-shadow: 0 0 18px rgba(255, 215, 0, 0.65), 0 0 34px rgba(255, 193, 7, 0.35), 0 6px 18px rgba(0, 0, 0, 0.8);
+    z-index: 9999;
     opacity: 0;
     visibility: hidden;
     transform: translateY(16px) scale(0.9);
@@ -339,8 +426,8 @@ body {
     transform: translateY(0) scale(1);
 }
 .back-to-top:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.85), 0 0 24px rgba(242, 210, 141, 0.75);
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 0 24px rgba(255, 224, 51, 0.9), 0 0 44px rgba(255, 193, 7, 0.55), 0 8px 22px rgba(0, 0, 0, 0.85);
 }
 .back-to-top svg.progress-ring {
     position: absolute;
@@ -351,12 +438,12 @@ body {
 }
 .back-to-top .ring-bg {
     fill: none;
-    stroke: rgba(218, 177, 91, 0.22);
+    stroke: rgba(255, 215, 0, 0.25);
     stroke-width: 3;
 }
 .back-to-top .ring-fill {
     fill: none;
-    stroke: #f2d28d;
+    stroke: #ffd54f;
     stroke-width: 3;
     stroke-linecap: round;
     stroke-dasharray: 138.23;
@@ -375,7 +462,7 @@ body {
 .back-to-top .arrow-icon {
     font-size: 16px;
     font-weight: 700;
-    color: #f2d28d;
+    color: #ffd54f;
     animation: floatUp 1.8s ease-in-out infinite;
 }
 .back-to-top .top-label {
@@ -399,7 +486,9 @@ body{padding:7px}
 .search-bar-dock{margin-top: 8px;}
 .search-input{padding: 9px 36px 9px 34px; font-size: 13px;}
 .search-icon{left: 11px; font-size: 13px;}
-.content-wrapper {padding-top: 262px;}
+.quick-tags-bar{margin-top: 7px; gap: 6px;}
+.topic-chip{padding: 4px 10px; font-size: 11px;}
+.content-wrapper {padding-top: 294px;}
 .library-heading h2{font-size:18px}
 .playlist{margin-bottom:10px;border-radius:8px}
 .playlist summary{padding:12px 10px;min-height:54px;font-size:14px;gap:6px}
@@ -408,10 +497,11 @@ body{padding:7px}
 .playlist-toggle{width:26px;height:26px;min-width:26px}
 .video-list{padding:3px 9px 10px}
 .video-title{font-size:13px;gap:8px;padding:11px 2px}
+.fav-btn{margin-top: 7px; width: 28px; height: 28px; font-size: 16px;}
 .video-player{padding-left:20px}
 .player-actions{padding: 7px 9px; gap: 8px;}
 .whatsapp-share-btn, .youtube-link{padding: 6px 12px; font-size: 11.5px;}
-.back-to-top{bottom: 18px; right: 15px; width: 46px; height: 46px;}
+.back-to-top{bottom: calc(50px + env(safe-area-inset-bottom)); right: 16px; width: 46px; height: 46px;}
 }
 </style>
 </head>
@@ -430,12 +520,23 @@ body{padding:7px}
         <div class="header-line" id="headerLine"></div>
     </div>
 
-    <!-- Fixed Instant Search Bar right below Top Banner -->
+    <!-- Fixed Instant Search Bar & Quick Topic Tags right below Top Banner -->
     <div class="search-bar-dock">
         <div class="search-container">
             <span class="search-icon">🔍</span>
             <input type="text" id="searchInput" class="search-input" placeholder="വീഡിയോകൾ തിരയുക (ഉദാ: മോക്ഷം, കർമ്മം, കുണ്ഡലിനി )..." aria-label="വീഡിയോകൾ തിരയുക">
             <button type="button" id="searchClear" class="search-clear" title="തിരയൽ മായ്ക്കുക">&times;</button>
+        </div>
+
+        <!-- Quick Topic Tags + Saved Favorites Filter -->
+        <div class="quick-tags-bar" id="quickTagsBar">
+            <button type="button" class="topic-chip fav-chip" id="favFilterBtn">★ Saved (<span id="favCountBadge">0</span>)</button>
+            <button type="button" class="topic-chip" data-tag="മോക്ഷം">മോക്ഷം</button>
+            <button type="button" class="topic-chip" data-tag="കുണ്ഡലിനി">കുണ്ഡലിനി</button>
+            <button type="button" class="topic-chip" data-tag="കർമ്മം">കർമ്മം</button>
+            <button type="button" class="topic-chip" data-tag="പ്രാർത്ഥന ">പ്രാർത്ഥന </button>
+            <button type="button" class="topic-chip" data-tag="നെഗറ്റീവ്">നെഗറ്റീവ്</button>
+            <button type="button" class="topic-chip" data-tag="വിധി">വിധി </button>
         </div>
     </div>
 </div>
@@ -456,7 +557,7 @@ body{padding:7px}
     </div>
 </div>
 
-<!-- Variety Back to Top Button with Live Scroll Progress Ring -->
+<!-- Variety Back to Top Button with Yellow Glow & Live Scroll Progress Ring -->
 <button type="button" id="backToTop" class="back-to-top" title="മുകളിലേക്ക് പോകുക" aria-label="മുകളിലേക്ക് പോകുക">
     <svg class="progress-ring" viewBox="0 0 50 50">
         <circle class="ring-bg" cx="25" cy="25" r="22"></circle>
@@ -1277,6 +1378,29 @@ videos:[
 
 ];
 
+/* Favorites (Bookmark) LocalStorage Management */
+const FAV_STORAGE_KEY = "sujo_rajan_saved_videos_v1";
+let savedVideoIds = new Set();
+try {
+    const rawSaved = localStorage.getItem(FAV_STORAGE_KEY);
+    if (rawSaved) {
+        savedVideoIds = new Set(JSON.parse(rawSaved));
+    }
+} catch (e) {}
+
+let showOnlyFavorites = false;
+
+function persistFavorites() {
+    try {
+        localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify([...savedVideoIds]));
+    } catch (e) {}
+    updateFavBadge();
+}
+
+function updateFavBadge() {
+    const badge = document.getElementById("favCountBadge");
+    if (badge) badge.textContent = savedVideoIds.size;
+}
 
 /* Helper to stop & close any playing video inside a specific container */
 function stopVideosIn(container) {
@@ -1299,7 +1423,7 @@ playlists.forEach((playlist) => {
     details.className = "playlist";
 
     details.addEventListener("toggle", () => {
-        const isSearching = document.getElementById("searchInput").value.trim().length > 0;
+        const isSearching = document.getElementById("searchInput").value.trim().length > 0 || showOnlyFavorites;
         if (details.open) {
             if (!isSearching) {
                 document.querySelectorAll(".playlist").forEach((otherDetails) => {
@@ -1344,8 +1468,15 @@ playlists.forEach((playlist) => {
 
     playlist.videos.forEach((video) => {
 
+        const videoTitle = video[0];
+        const videoId = video[1];
+
         const item = document.createElement("div");
         item.className = "video-item";
+        item.dataset.videoId = videoId;
+
+        const row = document.createElement("div");
+        row.className = "video-row";
 
         const button = document.createElement("button");
         button.className = "video-title";
@@ -1356,10 +1487,46 @@ playlists.forEach((playlist) => {
         play.textContent = "▶";
 
         const title = document.createElement("span");
-        title.textContent = video[0];
+        title.textContent = videoTitle;
 
         button.appendChild(play);
         button.appendChild(title);
+
+        // Bookmark Star Button
+        const favBtn = document.createElement("button");
+        favBtn.type = "button";
+        favBtn.className = "fav-btn";
+        const isInitiallySaved = savedVideoIds.has(videoId);
+        if (isInitiallySaved) {
+            favBtn.classList.add("saved");
+            favBtn.textContent = "★";
+            favBtn.title = "Saved-ൽ നിന്നും നീക്കുക";
+        } else {
+            favBtn.textContent = "☆";
+            favBtn.title = "Save ചെയ്യുക";
+        }
+
+        favBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const nowSaved = !savedVideoIds.has(videoId);
+            if (nowSaved) {
+                savedVideoIds.add(videoId);
+            } else {
+                savedVideoIds.delete(videoId);
+            }
+            document.querySelectorAll(`.video-item[data-video-id="${videoId}"] .fav-btn`).forEach(btn => {
+                btn.classList.toggle("saved", nowSaved);
+                btn.textContent = nowSaved ? "★" : "☆";
+                btn.title = nowSaved ? "Saved-ൽ നിന്നും നീക്കുക" : "Save ചെയ്യുക";
+            });
+            persistFavorites();
+            if (showOnlyFavorites) {
+                filterVideos();
+            }
+        });
+
+        row.appendChild(button);
+        row.appendChild(favBtn);
 
         const player = document.createElement("div");
         player.className = "video-player";
@@ -1375,8 +1542,6 @@ playlists.forEach((playlist) => {
                 button.classList.add("active");
                 player.classList.add("show");
 
-                const videoId = video[1];
-                const videoTitle = video[0];
                 const youtubeUrl = "https://www.youtube.com/watch?v=" + encodeURIComponent(videoId);
 
                 const frame = document.createElement("div");
@@ -1417,7 +1582,7 @@ playlists.forEach((playlist) => {
             }
         });
 
-        item.appendChild(button);
+        item.appendChild(row);
         item.appendChild(player);
 
         videoList.appendChild(item);
@@ -1427,19 +1592,32 @@ playlists.forEach((playlist) => {
     library.appendChild(details);
 });
 
-/* Instant Search Logic */
+updateFavBadge();
+
+/* Instant Search + Quick Topic Tags + Favorites Filter Logic */
 const searchInput = document.getElementById("searchInput");
 const searchClear = document.getElementById("searchClear");
 const searchStatus = document.getElementById("searchStatus");
+const favFilterBtn = document.getElementById("favFilterBtn");
+const topicChips = document.querySelectorAll(".topic-chip[data-tag]");
+
+function syncChipStates() {
+    const currentQuery = searchInput.value.trim();
+    topicChips.forEach(chip => {
+        chip.classList.toggle("active", !showOnlyFavorites && currentQuery === chip.dataset.tag);
+    });
+    favFilterBtn.classList.toggle("active", showOnlyFavorites);
+}
 
 function filterVideos() {
     const query = searchInput.value.trim().toLowerCase();
-    searchClear.classList.toggle("visible", query.length > 0);
+    searchClear.classList.toggle("visible", query.length > 0 || showOnlyFavorites);
+    syncChipStates();
 
     const allPlaylists = document.querySelectorAll(".playlist");
     let totalMatchedVideos = 0;
 
-    if (!query) {
+    if (!query && !showOnlyFavorites) {
         searchStatus.style.display = "none";
         allPlaylists.forEach((pl) => {
             pl.style.display = "";
@@ -1456,13 +1634,17 @@ function filterVideos() {
 
     allPlaylists.forEach((pl) => {
         const playlistName = pl.querySelector(".playlist-name").textContent.toLowerCase();
-        const isPlaylistNameMatch = playlistName.includes(query);
+        const isPlaylistNameMatch = query.length > 0 && playlistName.includes(query);
         const items = pl.querySelectorAll(".video-item");
         let matchedInPlaylist = 0;
 
         items.forEach((item) => {
             const titleText = item.querySelector(".video-title span:last-child").textContent.toLowerCase();
-            if (isPlaylistNameMatch || titleText.includes(query)) {
+            const vidId = item.dataset.videoId;
+            const matchesText = !query || isPlaylistNameMatch || titleText.includes(query);
+            const matchesFav = !showOnlyFavorites || savedVideoIds.has(vidId);
+
+            if (matchesText && matchesFav) {
                 item.style.display = "";
                 matchedInPlaylist++;
                 totalMatchedVideos++;
@@ -1485,18 +1667,49 @@ function filterVideos() {
     });
 
     searchStatus.style.display = "block";
-    if (totalMatchedVideos > 0) {
-        searchStatus.textContent = `${totalMatchedVideos} വീഡിയോകൾ കണ്ടെത്തി`;
+    if (showOnlyFavorites && totalMatchedVideos === 0) {
+        searchStatus.textContent = "സേവ് ചെയ്ത വീഡിയോകൾ ഒന്നും ഇല്ല. വീഡിയോയുടെ വലതുവശത്തുള്ള ☆ ബട്ടൺ അമർത്തി സേവ് ചെയ്യാം.";
+    } else if (totalMatchedVideos > 0) {
+        searchStatus.textContent = showOnlyFavorites
+            ? `സേവ് ചെയ്ത ${totalMatchedVideos} വീഡിയോകൾ`
+            : `${totalMatchedVideos} വീഡിയോകൾ കണ്ടെത്തി`;
     } else {
         searchStatus.textContent = "തിരയുന്ന വിഷയത്തിൽ വീഡിയോകൾ ഒന്നും കണ്ടെത്തിയില്ല.";
     }
 }
 
-searchInput.addEventListener("input", filterVideos);
+searchInput.addEventListener("input", () => {
+    filterVideos();
+});
+
 searchClear.addEventListener("click", () => {
     searchInput.value = "";
+    showOnlyFavorites = false;
     filterVideos();
     searchInput.focus();
+});
+
+// Quick Topic Chips Click
+topicChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+        showOnlyFavorites = false;
+        const tag = chip.dataset.tag;
+        if (searchInput.value.trim() === tag) {
+            searchInput.value = "";
+        } else {
+            searchInput.value = tag;
+        }
+        filterVideos();
+    });
+});
+
+// Saved Favorites Chip Click
+favFilterBtn.addEventListener("click", () => {
+    showOnlyFavorites = !showOnlyFavorites;
+    if (showOnlyFavorites) {
+        searchInput.value = "";
+    }
+    filterVideos();
 });
 
 /* Back to Top Button with Live Scroll Progress */
