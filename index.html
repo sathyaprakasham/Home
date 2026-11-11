@@ -1752,7 +1752,7 @@ function renderDiscussionsList() {
         bodyDiv.className = "discussion-body";
 
         const pointsHtml = item.mainPoints.map(pt => `<li>${pt}</li>`).join("");
-        const shareText = `✨ *സത്യപ്രകാശം - പഠന സംഗ്രഹം* ✨\n📅 *തീയതി:* ${item.fullDate}\n\n📌 *വിഷയം: ${item.topic}*\n\n📝 *ചർച്ചയുടെ പ്രധാന ആശയങ്ങൾ:*\n${item.mainPoints.map(p => "• " + p).join("\n")}\n\n💡 *ചർച്ചയുടെ നിഗമനം (Conclusion):*\n_${item.conclusion}_`;
+        const shareText = `✨ *സത്യപ്രകാശം - പഠന സംഗ്രഹം* ✨\n📅 *തീയതി:* ${item.fullDate}\n\n📌 *വിഷയം: ${item.topic}*\n\n📝 *ചർച്ചയുടെ പ്രധാന ആശയങ്ങൾ:*\n${item.mainPoints.map(p => "• " + p).join("\n")}\n\n💡 *ചർച്ചയുടെ നിഗമനം (Conclusion):*\n_${item.conclusion}_\n\n📄 *പൂർണ്ണ പഠന വിവരങ്ങൾ (Full Content):*\n${item.fullContentHtml.replace(/<br\s*[\/]?>/gi, "\n").replace(/<\/h4>/gi, "\n\n").replace(/<\/p>/gi, "\n\n").replace(/<[^>]+>/g, "").trim()}`;
         const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(shareText);
 
         bodyDiv.innerHTML = `
