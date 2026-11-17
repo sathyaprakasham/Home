@@ -428,6 +428,33 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
 }
+/* PDF Download Button Style */
+.download-pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 50px;
+    background: rgba(218, 177, 91, 0.12);
+    border: 1px solid rgba(218, 177, 91, 0.5);
+    color: #f2d28d;
+    font-family: 'Noto Sans Malayalam', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.download-pdf-btn:hover {
+    background: rgba(218, 177, 91, 0.28);
+    color: #fff;
+}
+.download-pdf-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
 .copy-summary-btn:hover {
     background: rgba(218, 177, 91, 0.22);
     color: #fff;
@@ -774,6 +801,7 @@ const dailyDiscussions = [
         date: "12 Nov 2026",
         fullDate: "2026 നവംബർ 12, വ്യാഴാഴ്ച",
         topic: "ദൈവത്തോടുള്ള ഭയം, ഭക്തി, ബഹുമാനം എങ്ങനെ?",
+        pdfUrl: "https://drive.google.com/file/d/18FXLzuvIZa-MZEZWOqkVx0aZTCRSZfCG/view?usp=sharing", // <-- പുതിയ ലിങ്ക് ഇവിടെ ചേർത്തിരിക്കുന്നു
         mainPoints: [
             "ആത്മീയതയിൽ ഭക്തി എല്ലാത്തിന്റെയും തുടക്കമാണ്; ഒരു അമാനുഷിക ശക്തിയെ പൂർണ്ണമായി ധ്യാനിച്ചും വാഴ്ത്തിയും പ്രീതിപ്പെടുത്തുന്നതാണ് ഭക്തി.",
             "ഭക്തി മൂത്ത് വരുന്ന കപടഭക്തിയും, കണ്ണപ്പനും ശബരിയും കാട്ടിയ ആത്മാർത്ഥമായ ഭക്തിയും തമ്മിൽ വ്യത്യാസമുണ്ട്; ഭക്തിയിൽ നിയമങ്ങളേക്കാൾ പ്രീതിപ്പെടുത്താനുള്ള ആഗ്രഹമാണ് ഉള്ളത്.",
@@ -1790,10 +1818,11 @@ function renderDiscussionsList() {
         const shareText = `✨ *സത്യപ്രകാശം - പഠന സംഗ്രഹം* ✨\n📅 *തീയതി:* ${item.fullDate}\n\n📌 *വിഷയം: ${item.topic}*\n\n📝 *ചർച്ചയുടെ പ്രധാന ആശയങ്ങൾ:*\n${item.mainPoints.map(p => "• " + p).join("\n")}\n\n💡 *ചർച്ചയുടെ നിഗമനം (Conclusion):*\n_${item.conclusion}_\n\n📄 *പൂർണ്ണ പഠന വിവരങ്ങൾ (Full Content):*\n${item.fullContentHtml.replace(/<br\s*[\/]?>/gi, "\n").replace(/<\/h4>/gi, "\n\n").replace(/<\/p>/gi, "\n\n").replace(/<[^>]+>/g, "").trim()}`;
         const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(shareText);
 
-        // Here we use item.pdfUrl || '#' so that every discussion item gets the Download PDF button pointing to '#' if no link is provided yet
-        const pdfLink = item.pdfUrl || '#';
+       // ഇവിടെ ഒറിജിനൽ പിഡിഎഫ് ലിങ്ക് ഉണ്ടെങ്കിൽ അത് നൽകുക, ഇല്ലെങ്കിൽ ഡമ്മി ലിങ്ക് (#) ആയിരിക്കും
+        const pdfLink = item.pdfUrl && item.pdfUrl !== '#' ? item.pdfUrl : '#';
+        const pdfTargetAttr = item.pdfUrl && item.pdfUrl !== '#' ? 'target="_blank" rel="noopener noreferrer"' : 'onclick="event.preventDefault(); alert(\'PDF ലിങ്ക് ഉടൻ ലഭ്യമാക്കുന്നതാണ്!\');"';
 
-bodyDiv.innerHTML = `
+        bodyDiv.innerHTML = `
             <span class="disc-date-day">📅 ${item.fullDate}</span>
 
             <div class="disc-summary-box">
@@ -1814,11 +1843,19 @@ bodyDiv.innerHTML = `
             <div class="player-actions" style="margin-top: 0;">
                 <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="whatsapp-share-btn">
                     <svg viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z"/></svg>
-                    <span>Share Summary</span>
+                    <span>Share</span>
                 </a>
+                
+                <!-- ഡമ്മി ലിങ്ക് ആണെങ്കിൽ അതേ പേജിൽ നിൽക്കും, ഒറിജിനൽ ലിങ്ക് ഉണ്ടെങ്കിൽ പുതിയ ടാബിൽ തുറക്കും -->
+                <a href="${pdfLink}" ${pdfTargetAttr} class="download-pdf-btn">
+                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Download PDF</span>
+                </a>
+
                 <button type="button" class="copy-summary-btn">📋 സംഗ്രഹം കോപ്പി ചെയ്യുക</button>
             </div>
         `;
+        
 
         const copyBtn = bodyDiv.querySelector(".copy-summary-btn");
         copyBtn.addEventListener("click", () => {
