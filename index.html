@@ -8,6 +8,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+  /* Date-നു താഴെ വരുന്ന PDF ബട്ടൺ സ്റ്റൈൽ */
+.top-download-pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    background: rgba(218, 177, 91, 0.12);
+    border: 1px solid rgba(218, 177, 91, 0.4);
+    color: #f2d28d;
+    font-family: 'Noto Sans Malayalam', sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.top-download-pdf-btn:hover {
+    background: rgba(218, 177, 91, 0.25);
+    color: #fff;
+}
+.top-download-pdf-btn svg {
+    width: 13px;
+    height: 13px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
 *, *::before, *::after {box-sizing: border-box;}
 html, body {
     width: 100%;
@@ -1825,6 +1853,12 @@ function renderDiscussionsList() {
         bodyDiv.innerHTML = `
             <span class="disc-date-day">📅 ${item.fullDate}</span>
 
+                <!-- ഡമ്മി ലിങ്ക് ആണെങ്കിൽ അതേ പേജിൽ നിൽക്കും, ഒറിജിനൽ ലിങ്ക് ഉണ്ടെങ്കിൽ പുതിയ ടാബിൽ തുറക്കും -->
+                <a href="${pdfLink}" ${pdfTargetAttr} class="download-pdf-btn">
+                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Download PDF</span>
+                </a>
+
             <div class="disc-summary-box">
                 <h3 class="disc-section-heading">📝 ചർച്ചയുടെ പ്രധാന ആശയങ്ങൾ</h3>
                 <ul class="disc-main-points">${pointsHtml}</ul>
@@ -1846,11 +1880,7 @@ function renderDiscussionsList() {
                     <span>Share</span>
                 </a>
                 
-                <!-- ഡമ്മി ലിങ്ക് ആണെങ്കിൽ അതേ പേജിൽ നിൽക്കും, ഒറിജിനൽ ലിങ്ക് ഉണ്ടെങ്കിൽ പുതിയ ടാബിൽ തുറക്കും -->
-                <a href="${pdfLink}" ${pdfTargetAttr} class="download-pdf-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                    <span>Download PDF</span>
-                </a>
+
 
                 <button type="button" class="copy-summary-btn">📋 സംഗ്രഹം കോപ്പി ചെയ്യുക</button>
             </div>
